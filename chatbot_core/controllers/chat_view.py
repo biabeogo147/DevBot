@@ -1,7 +1,7 @@
 import json
-from base.base_controller import BaseController
+from base.base_view import BaseController
 from django.views.decorators.csrf import csrf_exempt
-from chatbot_core.services.generation_service import on_chat_request
+from chatbot_core.services.chat_service import on_chat_request
 
 
 class ChatController(BaseController):
@@ -13,7 +13,6 @@ class ChatController(BaseController):
         """
         body_str = request.body.decode('utf-8')
         body = json.loads(body_str)
-        print(body)
         result = on_chat_request(
             message=body['message'],
             is_insert = request.method == 'POST',

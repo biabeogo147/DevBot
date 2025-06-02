@@ -1,7 +1,7 @@
 from django.urls import path
-from .controllers import chat_controller
+from .controllers.chat_view import ChatController
 
-chat_controller = chat_controller.ChatController()
+chat_controller = ChatController()
 
 
 urlpatterns = [

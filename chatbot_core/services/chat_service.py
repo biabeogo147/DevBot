@@ -40,9 +40,12 @@ def on_chat_request(
         List[ChatTemplate]: A list of ChatTemplate objects associated with the conversation.
     """
 
-    conversation = get_object_or_404(Conversation, pk=conversation_id)
+    try:
+        conversation = Conversation.objects.filter(id__exact=conversation_id)
+    except Conversation.DoesNotExist:
+        conversation = None
 
-    if is_new_conversation and conversation is None:
+    if is_new_conversation or conversation is None:
         conversation = Conversation.objects.create(topic=generate_topic(message))
 
     chat_template_query = ChatTemplate.objects.filter(conversation__exact=conversation_id)
@@ -50,7 +53,10 @@ def on_chat_request(
     assistant_response = ChatTemplate(role="Assistant", message=generate_answer(list_chat_templates), conversation_id=conversation_id)
 
     if is_insert:
-        ChatTemplate.objects.create(role="User", message=message, conversation_id=conversation.id)
-        ChatTemplate.objects.create(role="Assistant", message=assistant_response.message, conversation_id=conversation.id)
+        user_chat = ChatTemplate.objects.create(role="User", message=message, conversation_id=conversation.id)
+        assistant_chat = ChatTemplate.objects.create(role="Assistant", message=assistant_response.message, conversation_id=conversation.id)
+        list_chat_templates = list_chat_templates[:-1] + [user_chat, assistant_chat]
+    else:
+        list_chat_templates = list_chat_templates + [assistant_response]
 
-    return list_chat_templates + [assistant_response]
+    return list_chat_templates
