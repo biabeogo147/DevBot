@@ -1,3 +1,6 @@
 from django.contrib import admin
+from chatbot_core.models.conversation import Conversation
+from chatbot_core.models.chat_template import ChatTemplate
 
-# Register your models here.
+admin.site.register(Conversation)
+admin.site.register(ChatTemplate)

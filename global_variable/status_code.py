@@ -1,0 +1,10 @@
+from enum import Enum
+
+
+class StatusCode(Enum):
+    SUCCESS = 200
+    FORBIDDEN = 403
+    UNAUTHORIZED = 401
+    INVALID_REQUEST = 400
+    INTERNAL_SERVER_ERROR = 500
+    CONVERSATION_NOT_FOUND = 404
