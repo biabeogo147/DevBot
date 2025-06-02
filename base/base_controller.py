@@ -1,4 +1,5 @@
 import logging
+from django.core import serializers
 from django.http import JsonResponse
 from global_variable.status_code import StatusCode
 
@@ -13,7 +14,8 @@ class BaseController:
             "status": StatusCode.SUCCESS,
         }
         if data is not None:
-            response_data["data"] = data
+            json_data = serializers.serialize('json', data)
+            response_data["data"] = json_data
         return JsonResponse(response_data)
 
     @staticmethod
@@ -23,5 +25,6 @@ class BaseController:
             "message": message,
         }
         if data is not None:
-            response_data["data"] = data
+            json_data = serializers.serialize('json', data)
+            response_data["data"] = json_data
         return JsonResponse(response_data, status=status)
