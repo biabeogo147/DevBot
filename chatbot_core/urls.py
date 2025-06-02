@@ -1,5 +1,5 @@
 from django.urls import path
-from .controllers.chat_view import ChatController
+from .views.chat_view import ChatController
 
 chat_controller = ChatController()
 
