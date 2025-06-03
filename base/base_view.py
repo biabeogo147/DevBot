@@ -4,7 +4,7 @@ from django.http import JsonResponse
 from global_variable.status_code import StatusCode
 
 
-class BaseController:
+class BaseView:
     logger = logging.getLogger(__name__)
 
     @staticmethod
